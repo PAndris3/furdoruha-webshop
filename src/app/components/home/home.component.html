@@ -1,0 +1,21 @@
+<!-- home.component.html -->
+<div class="home-container">
+    <div class="banner">
+      <h1>Üdvözöljük a Fürdőruha Webshopban!</h1>
+      <p>Fedezze fel legújabb kollekcióinkat</p>
+      <button mat-raised-button color="accent" routerLink="/products">
+        Vásárolni
+      </button>
+    </div>
+    <div class="home-actions">
+      <button mat-raised-button color="primary" routerLink="/products">Termékek böngészése</button>
+      <button mat-raised-button color="accent" routerLink="/cart">Kosár megtekintése</button>
+    </div>
+    <h2>Kiemelt termékek</h2>
+    <div class="featured-products">
+      <app-product-card 
+        *ngFor="let product of featuredProducts" 
+        [product]="product"
+      ></app-product-card>
+    </div>
+  </div>

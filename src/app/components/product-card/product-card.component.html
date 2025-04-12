@@ -1,0 +1,60 @@
+<mat-card class="product-card">
+  <div class="product-image-container">
+    <img [src]="product.imageUrls && product.imageUrls.length > 0 ? product.imageUrls[0] : 'assets/images/placeholder.jpg'" 
+   alt="{{ product.name }}" 
+   class="product-image"
+   [ngClass]="{'out-of-stock': !product.inStock}">
+    
+    <div *ngIf="product.discountPrice" class="discount-badge">
+      {{ product.price | discount:product.discountPrice }}
+    </div>
+    
+    <div class="product-actions">
+      <button mat-icon-button color="primary" matTooltip="Kosárba">
+        <mat-icon>shopping_cart</mat-icon>
+      </button>
+      <button mat-icon-button color="accent" matTooltip="Kedvencekhez">
+        <mat-icon>favorite_border</mat-icon>
+      </button>
+    </div>
+  </div>
+  
+  <mat-card-content>
+    <h3 class="product-name">{{ product.name }}</h3>
+    
+    <div class="product-rating">
+      <mat-icon *ngFor="let star of getStarArray()" 
+                [color]="star ? 'accent' : ''" 
+                class="star-icon">
+        {{ star ? 'star' : 'star_border' }}
+      </mat-icon>
+      <span class="rating-value">{{ product.rating }}</span>
+    </div>
+    
+    <div class="product-price">
+      <span *ngIf="product.discountPrice" class="original-price">
+        {{ product.price }} Ft
+      </span>
+      <span class="current-price">
+        {{ product.discountPrice || product.price }} Ft
+      </span>
+    </div>
+    
+    <div class="product-stock" [ngClass]="{'out-of-stock': !product.inStock}">
+      <mat-icon>{{ product.inStock ? 'check_circle' : 'highlight_off' }}</mat-icon>
+      {{ product.inStock | stockStatus }}
+    </div>
+  </mat-card-content>
+  
+  <mat-card-actions>
+    <button mat-button color="primary" [routerLink]="['/products', product.id]">
+      Részletek
+    </button>
+<button mat-raised-button color="accent" 
+[disabled]="!product.inStock"
+(click)="onAddToCart()">
+Kosárba
+</button>
+    <mat-card class="product-card" [appHighlight]="product.discountPrice !== undefined"></mat-card>
+  </mat-card-actions>
+</mat-card>

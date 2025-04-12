@@ -1,0 +1,138 @@
+.product-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    transition: transform 0.2s;
+  }
+  
+  .product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 10px rgba(0,0,0,0.2);
+  }
+  
+  .product-image-container {
+    position: relative;
+    padding-top: 133%; /* 3:4 arány */
+    overflow: hidden;
+  }
+  
+  .product-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s;
+  }
+  
+  .product-image.out-of-stock {
+    filter: grayscale(1);
+    opacity: 0.7;
+  }
+  
+  .product-card:hover .product-image {
+    transform: scale(1.05);
+  }
+  
+  .discount-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #f44336;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 14px;
+  }
+  
+  .product-actions {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  
+  .product-card:hover .product-actions {
+    opacity: 1;
+  }
+  
+  .product-actions button {
+    background-color: white;
+    margin-bottom: 8px;
+  }
+  
+  .product-name {
+    margin: 12px 0 8px;
+    font-size: 18px;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .product-rating {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  
+  .star-icon {
+    font-size: 18px;
+    height: 18px;
+    width: 18px;
+  }
+  
+  .rating-value {
+    margin-left: 4px;
+    font-size: 14px;
+    color: #666;
+  }
+  
+  .product-price {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  
+  .original-price {
+    text-decoration: line-through;
+    color: #999;
+    font-size: 14px;
+    margin-right: 8px;
+  }
+  
+  .current-price {
+    font-weight: bold;
+    font-size: 18px;
+    color: #f44336;
+  }
+  
+  .product-stock {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: #4caf50;
+  }
+  
+  .product-stock.out-of-stock {
+    color: #f44336;
+  }
+  
+  .product-stock mat-icon {
+    font-size: 16px;
+    height: 16px;
+    width: 16px;
+    margin-right: 4px;
+  }
+  
+  mat-card-actions {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 8px 16px 8px;
+    margin-top: auto;
+  }

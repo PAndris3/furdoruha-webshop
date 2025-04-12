@@ -1,0 +1,37 @@
+.register-container {
+    max-width: 600px;
+    margin: 30px auto;
+    padding: 0 20px;
+  }
+  
+  .form-row {
+    display: flex;
+    gap: 16px;
+  }
+  
+  .full-width {
+    width: 100%;
+  }
+  
+  .form-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+  }
+  
+  @media (max-width: 600px) {
+    .form-row {
+      flex-direction: column;
+      gap: 0;
+    }
+    
+    .form-actions {
+      flex-direction: column;
+      gap: 10px;
+    }
+    
+    .form-actions button {
+      width: 100%;
+    }
+  }

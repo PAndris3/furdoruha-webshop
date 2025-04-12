@@ -1,0 +1,70 @@
+/* product-list.component.css */
+.product-list-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 16px;
+  }
+  
+  .filter-card {
+    margin-bottom: 24px;
+  }
+  
+  .filter-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .full-width {
+    width: 100%;
+  }
+  
+  .price-range, .filter-row, .filter-actions {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  
+  .price-range mat-form-field, 
+  .filter-row mat-form-field {
+    flex: 1;
+    min-width: 200px;
+  }
+  
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
+  }
+  
+  .loading-container, .no-products {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 0;
+  }
+  
+  .no-products {
+    text-align: center;
+    color: #666;
+  }
+  
+  .no-products mat-icon {
+    font-size: 48px;
+    height: 48px;
+    width: 48px;
+    margin-bottom: 16px;
+  }
+  
+  /* Reszponzív beállítások */
+  @media (max-width: 768px) {
+    .price-range, .filter-row, .filter-actions {
+      flex-direction: column;
+      gap: 0;
+    }
+    
+    .filter-actions button {
+      margin-top: 8px;
+    }
+  }

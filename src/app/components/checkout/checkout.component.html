@@ -1,0 +1,136 @@
+<div class="checkout-container">
+    <h2>Rendelés véglegesítése</h2>
+  
+    <mat-stepper linear #stepper>
+      <mat-step [stepControl]="shippingForm" label="Szállítási adatok">
+        <form [formGroup]="shippingForm">
+          <div class="form-container">
+            <div class="form-row">
+              <mat-form-field appearance="outline">
+                <mat-label>Vezetéknév</mat-label>
+                <input matInput formControlName="lastName">
+                <mat-error *ngIf="shippingForm.get('lastName')?.hasError('required')">
+                  Vezetéknév megadása kötelező
+                </mat-error>
+              </mat-form-field>
+  
+              <mat-form-field appearance="outline">
+                <mat-label>Keresztnév</mat-label>
+                <input matInput formControlName="firstName">
+                <mat-error *ngIf="shippingForm.get('firstName')?.hasError('required')">
+                  Keresztnév megadása kötelező
+                </mat-error>
+              </mat-form-field>
+            </div>
+  
+            <div class="form-row">
+              <mat-form-field appearance="outline">
+                <mat-label>Email cím</mat-label>
+                <input matInput formControlName="email" type="email">
+                <mat-error *ngIf="shippingForm.get('email')?.hasError('required')">
+                  Email cím megadása kötelező
+                </mat-error>
+                <mat-error *ngIf="shippingForm.get('email')?.hasError('email')">
+                  Érvénytelen email formátum
+                </mat-error>
+              </mat-form-field>
+  
+              <mat-form-field appearance="outline">
+                <mat-label>Telefonszám</mat-label>
+                <input matInput formControlName="phone">
+                <mat-error *ngIf="shippingForm.get('phone')?.hasError('required')">
+                  Telefonszám megadása kötelező
+                </mat-error>
+              </mat-form-field>
+            </div>
+  
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Cím</mat-label>
+              <input matInput formControlName="address">
+              <mat-error *ngIf="shippingForm.get('address')?.hasError('required')">
+                Cím megadása kötelező
+              </mat-error>
+            </mat-form-field>
+  
+            <div class="form-row">
+              <mat-form-field appearance="outline">
+                <mat-label>Város</mat-label>
+                <input matInput formControlName="city">
+                <mat-error *ngIf="shippingForm.get('city')?.hasError('required')">
+                  Város megadása kötelező
+                </mat-error>
+              </mat-form-field>
+  
+              <mat-form-field appearance="outline">
+                <mat-label>Irányítószám</mat-label>
+                <input matInput formControlName="zipCode">
+                <mat-error *ngIf="shippingForm.get('zipCode')?.hasError('required')">
+                  Irányítószám megadása kötelező
+                </mat-error>
+              </mat-form-field>
+            </div>
+  
+            <div class="button-row">
+              <button mat-button matStepperNext color="primary" [disabled]="!shippingForm.valid">Tovább</button>
+            </div>
+          </div>
+        </form>
+      </mat-step>
+  
+      <mat-step [stepControl]="paymentForm" label="Fizetési adatok">
+        <form [formGroup]="paymentForm">
+          <div class="form-container">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Kártyán szereplő név</mat-label>
+              <input matInput formControlName="cardName">
+              <mat-error *ngIf="paymentForm.get('cardName')?.hasError('required')">
+                Kártyán szereplő név megadása kötelező
+              </mat-error>
+            </mat-form-field>
+  
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Kártyaszám</mat-label>
+              <input matInput formControlName="cardNumber" placeholder="XXXX XXXX XXXX XXXX">
+              <mat-error *ngIf="paymentForm.get('cardNumber')?.hasError('required')">
+                Kártyaszám megadása kötelező
+              </mat-error>
+              <mat-error *ngIf="paymentForm.get('cardNumber')?.hasError('pattern')">
+                Érvénytelen kártyaszám
+              </mat-error>
+            </mat-form-field>
+  
+            <div class="form-row">
+              <mat-form-field appearance="outline">
+                <mat-label>Lejárati dátum</mat-label>
+                <input matInput formControlName="expiry" placeholder="MM/YY">
+                <mat-error *ngIf="paymentForm.get('expiry')?.hasError('required')">
+                  Lejárati dátum megadása kötelező
+                </mat-error>
+                <mat-error *ngIf="paymentForm.get('expiry')?.hasError('pattern')">
+                  Formátum: HH/ÉÉ
+                </mat-error>
+              </mat-form-field>
+  
+              <mat-form-field appearance="outline">
+                <mat-label>CVV</mat-label>
+                <input matInput formControlName="cvv">
+                <mat-error *ngIf="paymentForm.get('cvv')?.hasError('required')">
+                  CVV megadása kötelező
+                </mat-error>
+                <mat-error *ngIf="paymentForm.get('cvv')?.hasError('pattern')">
+                  3-4 számjegy
+                </mat-error>
+              </mat-form-field>
+            </div>
+  
+            <div class="button-row">
+              <button mat-button matStepperPrevious>Vissza</button>
+              <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="!paymentForm.valid">
+                Rendelés leadása
+              </button>
+            </div>
+          </div>
+        </form>
+      </mat-step>
+    </mat-stepper>
+  </div>

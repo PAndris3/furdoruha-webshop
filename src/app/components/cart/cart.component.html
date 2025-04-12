@@ -1,0 +1,64 @@
+<!-- cart.component.html -->
+<div class="cart-container">
+  <h2>Kosár tartalma</h2>
+  
+  
+  <div *ngIf="cartItems.length === 0" class="empty-cart">
+    <p>A kosár üres</p>
+    <button mat-raised-button color="primary" routerLink="/products">Vásárlás folytatása</button>
+  </div>
+  
+  <div *ngIf="cartItems.length > 0">
+    <div *ngFor="let item of cartItems" class="cart-item">
+      <mat-card>
+        <div class="cart-item-content">
+          <div class="item-image" *ngIf="item.product.imageUrls && item.product.imageUrls.length > 0">
+            <img [src]="item.product.imageUrls[0]" [alt]="item.product.name">
+          </div>
+          <div class="item-details">
+            <h3>{{ item.product.name }}</h3>
+            <p class="price">
+              <span *ngIf="item.product.discountPrice" class="original-price">{{ item.product.price }} Ft</span>
+              <span class="current-price">{{ item.product.discountPrice || item.product.price }} Ft</span>
+            </p>
+            <div class="quantity-control">
+              <button mat-icon-button (click)="updateQuantity(item, item.quantity - 1)" [disabled]="item.quantity <= 1">
+                <mat-icon>remove</mat-icon>
+              </button>
+              <span class="quantity">{{ item.quantity }}</span>
+              <button mat-icon-button (click)="updateQuantity(item, item.quantity + 1)">
+                <mat-icon>add</mat-icon>
+              </button>
+            </div>
+          </div>
+          <div class="item-actions">
+            <span class="item-total">{{ (item.product.discountPrice || item.product.price) * item.quantity }} Ft</span>
+            <button mat-icon-button color="warn" (click)="removeItem(item.product.id)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </div>
+      </mat-card>
+    </div>
+    
+    <mat-card class="cart-summary">
+      <h3>Összesítés</h3>
+      <div class="summary-row">
+        <span>Részösszeg:</span>
+        <span>{{ getCartTotal() }} Ft</span>
+      </div>
+      <div class="summary-row">
+        <span>Szállítási díj:</span>
+        <span>{{ getCartTotal() > 15000 ? 'Ingyenes' : '1500 Ft' }}</span>
+      </div>
+      <div class="summary-row total">
+        <span>Végösszeg:</span>
+        <span>{{ getCartTotal() > 15000 ? getCartTotal() : getCartTotal() + 1500 }} Ft</span>
+      </div>
+      <div class="cart-actions">
+        <button mat-button color="warn" (click)="clearCart()">Kosár ürítése</button>
+        <button mat-raised-button color="primary" routerLink="/checkout">Tovább a pénztárhoz</button>
+      </div>
+    </mat-card>
+  </div>
+</div>

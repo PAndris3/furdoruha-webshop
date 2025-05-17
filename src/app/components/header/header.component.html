@@ -6,8 +6,20 @@
   <span class="spacer"></span>
   
   <div class="auth-buttons">
-    <button mat-raised-button color="basic" class="nav-button" routerLink="/login">Bejelentkezés</button>
-    <button mat-raised-button color="basic" class="nav-button" routerLink="/register">Regisztráció</button>
+    <ng-container *ngIf="isLoggedIn; else loggedOut">
+      <button mat-raised-button color="basic" class="nav-button" routerLink="/admin" *ngIf="isAdmin">
+        Admin
+      </button>
+      
+      <button mat-raised-button color="basic" class="nav-button" (click)="logout()">
+        Kijelentkezés
+      </button>
+    </ng-container>
+
+    <ng-template #loggedOut>
+      <button mat-raised-button color="basic" class="nav-button" routerLink="/login">Bejelentkezés</button>
+      <button mat-raised-button color="basic" class="nav-button" routerLink="/register">Regisztráció</button>
+    </ng-template>
     
     <button mat-raised-button color="accent" class="nav-button cart-button" routerLink="/cart">
       <mat-icon>shopping_cart</mat-icon>

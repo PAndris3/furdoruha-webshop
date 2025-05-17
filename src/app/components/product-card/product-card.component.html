@@ -1,19 +1,19 @@
-<mat-card class="product-card">
+<mat-card class="product-card {{customClass}}">
   <div class="product-image-container">
     <img [src]="product.imageUrls && product.imageUrls.length > 0 ? product.imageUrls[0] : 'assets/images/placeholder.jpg'" 
-   alt="{{ product.name }}" 
-   class="product-image"
-   [ngClass]="{'out-of-stock': !product.inStock}">
+      alt="{{ product.name }}" 
+      class="product-image"
+      [ngClass]="{'out-of-stock': !product.inStock}">
     
     <div *ngIf="product.discountPrice" class="discount-badge">
       {{ product.price | discount:product.discountPrice }}
     </div>
     
-    <div class="product-actions">
-      <button mat-icon-button color="primary" matTooltip="Kosárba">
+    <div class="product-actions" *ngIf="showControls">
+      <button mat-icon-button color="primary" matTooltip="Kosárba" (click)="onAddToCart()">
         <mat-icon>shopping_cart</mat-icon>
       </button>
-      <button mat-icon-button color="accent" matTooltip="Kedvencekhez">
+      <button mat-icon-button color="accent" matTooltip="Kedvencekhez" (click)="onAddToWishlist()">
         <mat-icon>favorite_border</mat-icon>
       </button>
     </div>
@@ -22,7 +22,7 @@
   <mat-card-content>
     <h3 class="product-name">{{ product.name }}</h3>
     
-    <div class="product-rating">
+    <div class="product-rating" *ngIf="showRating">
       <mat-icon *ngFor="let star of getStarArray()" 
                 [color]="star ? 'accent' : ''" 
                 class="star-icon">
@@ -46,15 +46,15 @@
     </div>
   </mat-card-content>
   
-  <mat-card-actions>
+  <mat-card-actions *ngIf="showControls">
     <button mat-button color="primary" [routerLink]="['/products', product.id]">
       Részletek
     </button>
-<button mat-raised-button color="accent" 
-[disabled]="!product.inStock"
-(click)="onAddToCart()">
-Kosárba
-</button>
-    <mat-card class="product-card" [appHighlight]="product.discountPrice !== undefined"></mat-card>
+    <button mat-raised-button color="accent" 
+            [disabled]="!product.inStock"
+            (click)="onAddToCart()">
+      Kosárba
+    </button>
+    <mat-card [appHighlight]="product.discountPrice !== undefined" class="product-card"></mat-card>
   </mat-card-actions>
 </mat-card>

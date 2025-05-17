@@ -1,0 +1,165 @@
+<div class="admin-container">
+  <h1>Admin Felület - Termékkezelés</h1>
+
+  <div class="admin-content">
+    <mat-card class="form-card">
+      <mat-card-header>
+        <mat-card-title>{{ isEditing ? 'Termék szerkesztése' : 'Új termék hozzáadása' }}</mat-card-title>
+      </mat-card-header>
+      
+      <mat-card-content>
+        <form [formGroup]="productForm" (ngSubmit)="onSubmit()" class="product-form">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Név</mat-label>
+            <input matInput formControlName="name" placeholder="Termék neve">
+            <mat-error *ngIf="productForm.get('name')?.errors?.['required']">
+              A név megadása kötelező!
+            </mat-error>
+          </mat-form-field>
+          
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Leírás</mat-label>
+            <textarea matInput formControlName="description" rows="4" placeholder="Termék leírása"></textarea>
+            <mat-error *ngIf="productForm.get('description')?.errors?.['required']">
+              A leírás megadása kötelező!
+            </mat-error>
+          </mat-form-field>
+          
+          <div class="form-row">
+            <mat-form-field appearance="outline">
+              <mat-label>Ár (Ft)</mat-label>
+              <input matInput type="number" formControlName="price" min="0">
+              <mat-error *ngIf="productForm.get('price')?.errors?.['required']">
+                Az ár megadása kötelező!
+              </mat-error>
+              <mat-error *ngIf="productForm.get('price')?.errors?.['min']">
+                Az ár nem lehet negatív!
+              </mat-error>
+            </mat-form-field>
+            
+            <mat-form-field appearance="outline">
+              <mat-label>Akciós ár (Ft)</mat-label>
+              <input matInput type="number" formControlName="discountPrice" min="0">
+            </mat-form-field>
+          </div>
+          
+          <div class="form-row">
+            <mat-form-field appearance="outline">
+              <mat-label>Méretek (vesszővel elválasztva)</mat-label>
+              <input matInput formControlName="sizes" placeholder="pl. S, M, L, XL">
+            </mat-form-field>
+            
+            <mat-form-field appearance="outline">
+              <mat-label>Színek (vesszővel elválasztva)</mat-label>
+              <input matInput formControlName="colors" placeholder="pl. Fekete, Kék, Piros">
+            </mat-form-field>
+          </div>
+          
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Kategória</mat-label>
+            <mat-select formControlName="categoryId">
+              <mat-option *ngFor="let category of categories" [value]="category.id">
+                {{ category.name }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="productForm.get('categoryId')?.errors?.['required']">
+              A kategória kiválasztása kötelező!
+            </mat-error>
+          </mat-form-field>
+          
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Képek URL-jei (vesszővel elválasztva)</mat-label>
+            <input matInput formControlName="imageUrls" placeholder="pl. assets/images/image1.jpg, assets/images/image2.jpg">
+          </mat-form-field>
+          
+          <div class="form-row checkboxes">
+            <mat-checkbox formControlName="featured">Kiemelt termék</mat-checkbox>
+            <mat-checkbox formControlName="inStock">Készleten</mat-checkbox>
+          </div>
+          
+          <mat-form-field appearance="outline">
+            <mat-label>Értékelés (1-5)</mat-label>
+            <input matInput type="number" formControlName="rating" min="1" max="5" step="0.1">
+          </mat-form-field>
+          
+          <div class="form-actions">
+            <button mat-raised-button color="primary" type="submit" [disabled]="productForm.invalid">
+              {{ isEditing ? 'Mentés' : 'Hozzáadás' }}
+            </button>
+            <button mat-button type="button" (click)="resetForm()">Mégse</button>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+    
+    <mat-card class="products-card">
+      <mat-card-header>
+        <mat-card-title>Termékek listája</mat-card-title>
+      </mat-card-header>
+      
+      <mat-card-content>
+        <table mat-table [dataSource]="products" class="products-table">
+          <!-- Image Column -->
+          <ng-container matColumnDef="image">
+            <th mat-header-cell *matHeaderCellDef>Kép</th>
+            <td mat-cell *matCellDef="let product">
+              <img class="product-thumbnail" 
+                  [src]="product.imageUrls && product.imageUrls.length > 0 ? product.imageUrls[0] : 'assets/images/placeholder.jpg'" 
+                  [alt]="product.name">
+            </td>
+          </ng-container>
+          
+          <!-- Name Column -->
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>Név</th>
+            <td mat-cell *matCellDef="let product">{{ product.name }}</td>
+          </ng-container>
+          
+          <!-- Price Column -->
+          <ng-container matColumnDef="price">
+            <th mat-header-cell *matHeaderCellDef>Ár</th>
+            <td mat-cell *matCellDef="let product">
+              <div *ngIf="product.discountPrice" class="price-container">
+                <span class="original-price">{{ product.price }} Ft</span>
+                <span class="discount-price">{{ product.discountPrice }} Ft</span>
+              </div>
+              <span *ngIf="!product.discountPrice">{{ product.price }} Ft</span>
+            </td>
+          </ng-container>
+          
+          <!-- Category Column -->
+          <ng-container matColumnDef="category">
+            <th mat-header-cell *matHeaderCellDef>Kategória</th>
+            <td mat-cell *matCellDef="let product">{{ getCategoryName(product.categoryId) }}</td>
+          </ng-container>
+          
+          <!-- Stock Column -->
+          <ng-container matColumnDef="stock">
+            <th mat-header-cell *matHeaderCellDef>Készlet</th>
+            <td mat-cell *matCellDef="let product">
+              <span [ngClass]="product.inStock ? 'in-stock' : 'out-of-stock'">
+                {{ product.inStock ? 'Készleten' : 'Nincs készleten' }}
+              </span>
+            </td>
+          </ng-container>
+          
+          <!-- Actions Column -->
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef>Műveletek</th>
+            <td mat-cell *matCellDef="let product">
+              <button mat-icon-button color="primary" (click)="editProduct(product)">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button color="warn" (click)="deleteProduct(product)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+          
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

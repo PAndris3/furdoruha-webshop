@@ -63,6 +63,7 @@ export class ProductListComponent implements OnInit {
       sort: ['name']
     });
   }
+  
   onAddToCart(product: Product) {
     console.log('Termék hozzáadva a kosárhoz:', product);
     this.snackBar.open(`${product.name} hozzáadva a kosárhoz!`, 'Rendben', {
@@ -72,19 +73,33 @@ export class ProductListComponent implements OnInit {
     });
   }
   
+  onAddToWishlist(product: Product) {
+    console.log('Termék hozzáadva a kedvencekhez:', product);
+    this.snackBar.open(`${product.name} hozzáadva a kedvencekhez!`, 'Rendben', {
+      duration: 3000,
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom'
+    });
+  }
+  
+  onViewDetails(product: Product) {
+    console.log('Termék részletek megtekintése:', product);
+    this.snackBar.open(`${product.name} részleteinek megtekintése`, 'Bezárás', {
+      duration: 2000
+    });
+    // Itt lehetne egy modal/dialog nyitása a részletekkel
+  }
+  
   ngOnInit(): void {
-    // Kategória ID figyelése az URL-ben
     this.route.paramMap.subscribe(params => {
       this.categoryId = params.get('id');
       this.loadProducts();
     });
     
-    // Kategóriák betöltése
     this.productService.getCategories().subscribe(categories => {
       this.categories = categories;
     });
     
-    // Szűrő változásainak figyelése
     this.filterForm.valueChanges
       .pipe(debounceTime(500))
       .subscribe(() => {
@@ -95,7 +110,7 @@ export class ProductListComponent implements OnInit {
   loadProducts(): void {
     this.loading = true;
     console.log('Loading products...');
-    // Termékek betöltése kategória szerint vagy keresési feltételek alapján
+
     if (this.categoryId) {
       this.productService.getProductsByCategory(this.categoryId).subscribe(products => {
         this.products = this.filterProducts(products);
@@ -114,26 +129,21 @@ export class ProductListComponent implements OnInit {
     }
   }
   
-  // Szűrési logika a termékekhez
   filterProducts(products: Product[]): Product[] {
     const filters = this.filterForm.value;
     
     return products
       .filter(p => {
-        // Ár szűrés
         if (filters.minPrice && p.price < filters.minPrice) return false;
         if (filters.maxPrice && p.price > filters.maxPrice) return false;
         
-        // Méret szűrés
         if (filters.size && !p.sizes.includes(filters.size)) return false;
         
-        // Szín szűrés
         if (filters.color && !p.colors.includes(filters.color)) return false;
         
         return true;
       })
       .sort((a, b) => {
-        // Rendezés
         switch (filters.sort) {
           case 'price_asc':
             return a.price - b.price;
@@ -149,13 +159,11 @@ export class ProductListComponent implements OnInit {
       });
   }
   
-  // Kategória név lekérdezése ID alapján
   getCategoryName(id: string): string {
     const category = this.categories.find(c => c.id === id);
     return category ? category.name : '';
   }
   
-  // Szűrők törlése
   clearFilters(): void {
     this.filterForm.patchValue({
       search: '',
@@ -165,5 +173,10 @@ export class ProductListComponent implements OnInit {
       color: '',
       sort: 'name'
     });
+  }
+
+  isFeatured(product: Product): boolean {
+    // Logika a kiemelt termékek meghatározásához
+    return product.featured || false;
   }
 }

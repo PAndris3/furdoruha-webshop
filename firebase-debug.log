@@ -1,0 +1,92 @@
+[debug] [2025-05-17T12:41:53.991Z] ----------------------------------------------------------------------
+[debug] [2025-05-17T12:41:53.994Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\prona\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js init
+[debug] [2025-05-17T12:41:53.994Z] CLI Version:   14.4.0
+[debug] [2025-05-17T12:41:53.995Z] Platform:      win32
+[debug] [2025-05-17T12:41:53.995Z] Node Version:  v22.11.0
+[debug] [2025-05-17T12:41:53.995Z] Time:          Sat May 17 2025 14:41:53 GMT+0200 (közép-európai nyári idő)
+[debug] [2025-05-17T12:41:53.995Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2025-05-17T12:41:54.002Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-05-17T12:41:54.003Z] > authorizing via signed-in user (pronai.andras2002@gmail.com)
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  C:\Users\prona\Desktop\Webkert\Beadando\furdoruha-webshop
+
+[info] 
+=== Project Setup
+[info] 
+[info] First, let's associate this project directory with a Firebase project.
+[info] You can create multiple project aliases by running firebase use --add, 
+[info] but for now we'll just set up a default project.
+[info] 
+[info] i  If you want to create a project in a Google Cloud organization or folder, please use "firebase projects:create" instead, and return to this command when you've created the project. 
+[debug] [2025-05-17T12:42:58.675Z] Checked if tokens are valid: true, expires at: 1747488978406
+[debug] [2025-05-17T12:42:58.675Z] Checked if tokens are valid: true, expires at: 1747488978406
+[debug] [2025-05-17T12:42:58.676Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects [none]
+[debug] [2025-05-17T12:42:58.677Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects {"projectId":"furdoruha-webshop","name":"furdoruha-webshop"}
+[debug] [2025-05-17T12:42:59.610Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects 409
+[debug] [2025-05-17T12:42:59.610Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects {"error":{"code":409,"message":"Requested entity already exists","status":"ALREADY_EXISTS"}}
+[debug] [2025-05-17T12:42:59.723Z] FirebaseError: Request to https://cloudresourcemanager.googleapis.com/v1/projects had HTTP Error: 409, Requested entity already exists
+    at responseToError (C:\Users\prona\AppData\Roaming\npm\node_modules\firebase-tools\lib\responseToError.js:52:12)
+    at RetryOperation._fn (C:\Users\prona\AppData\Roaming\npm\node_modules\firebase-tools\lib\apiv2.js:312:77)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+[error] 
+[error] Error: Failed to create project because there is already a project with ID furdoruha-webshop. Please try again with a unique project ID.
+[debug] [2025-05-17T12:43:10.462Z] ----------------------------------------------------------------------
+[debug] [2025-05-17T12:43:10.465Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\prona\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js init
+[debug] [2025-05-17T12:43:10.466Z] CLI Version:   14.4.0
+[debug] [2025-05-17T12:43:10.466Z] Platform:      win32
+[debug] [2025-05-17T12:43:10.466Z] Node Version:  v22.11.0
+[debug] [2025-05-17T12:43:10.466Z] Time:          Sat May 17 2025 14:43:10 GMT+0200 (közép-európai nyári idő)
+[debug] [2025-05-17T12:43:10.467Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2025-05-17T12:43:10.474Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-05-17T12:43:10.475Z] > authorizing via signed-in user (pronai.andras2002@gmail.com)
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  C:\Users\prona\Desktop\Webkert\Beadando\furdoruha-webshop
+
+[info] 
+=== Project Setup
+[info] 
+[info] First, let's associate this project directory with a Firebase project.
+[info] You can create multiple project aliases by running firebase use --add, 
+[info] but for now we'll just set up a default project.
+[info] 
+[info] i  If you want to create a project in a Google Cloud organization or folder, please use "firebase projects:create" instead, and return to this command when you've created the project. 
+[debug] [2025-05-17T12:45:03.175Z] Checked if tokens are valid: true, expires at: 1747488978406
+[debug] [2025-05-17T12:45:03.175Z] Checked if tokens are valid: true, expires at: 1747488978406
+[debug] [2025-05-17T12:45:03.176Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects [none]
+[debug] [2025-05-17T12:45:03.176Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects {"projectId":"furdoruha-webshop-2025","name":"furdoruha-webshop-2025"}
+[debug] [2025-05-17T12:45:04.133Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects 200
+[debug] [2025-05-17T12:45:04.133Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects {"name":"operations/create_project.global.5404983876095674653"}
+[debug] [2025-05-17T12:45:04.134Z] Checked if tokens are valid: true, expires at: 1747488978406
+[debug] [2025-05-17T12:45:04.134Z] Checked if tokens are valid: true, expires at: 1747488978406
+[debug] [2025-05-17T12:45:04.134Z] >>> [apiv2][query] GET https://cloudresourcemanager.googleapis.com/v1/operations/create_project.global.5404983876095674653 [none]
+[debug] [2025-05-17T12:45:04.895Z] <<< [apiv2][status] GET https://cloudresourcemanager.googleapis.com/v1/operations/create_project.global.5404983876095674653 200
+[debug] [2025-05-17T12:45:04.895Z] <<< [apiv2][body] GET https://cloudresourcemanager.googleapis.com/v1/operations/create_project.global.5404983876095674653 {"name":"operations/create_project.global.5404983876095674653","metadata":{"@type":"type.googleapis.com/google.cloudresourcemanager.v1.ProjectCreationStatus","ready":true},"done":true,"error":{"code":9,"message":"Callers must accept Terms of Service","details":[{"@type":"type.googleapis.com/google.rpc.PreconditionFailure","violations":[{"type":"TOS","subject":"cloud","description":"Callers must accept Terms of Service"}]}]}}
+[debug] [2025-05-17T12:45:05.003Z] FirebaseError: Callers must accept Terms of Service
+    at OperationPoller.poll (C:\Users\prona\AppData\Roaming\npm\node_modules\firebase-tools\lib\operation-poller.js:24:19)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async createCloudProject (C:\Users\prona\AppData\Roaming\npm\node_modules\firebase-tools\lib\management\projects.js:201:29)
+    at async createFirebaseProjectAndLog (C:\Users\prona\AppData\Roaming\npm\node_modules\firebase-tools\lib\management\projects.js:69:9)
+    at async promptAndCreateNewProject (C:\Users\prona\AppData\Roaming\npm\node_modules\firebase-tools\lib\init\features\project.js:31:12)
+    at async Object.doSetup (C:\Users\prona\AppData\Roaming\npm\node_modules\firebase-tools\lib\init\features\project.js:79:27)
+    at async init (C:\Users\prona\AppData\Roaming\npm\node_modules\firebase-tools\lib\init\index.js:53:13)
+    at async Command.initAction [as actionFn] (C:\Users\prona\AppData\Roaming\npm\node_modules\firebase-tools\lib\commands\init.js:187:5)
+[error] 
+[error] Error: Failed to create project. See firebase-debug.log for more info.

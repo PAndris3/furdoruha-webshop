@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { Product, Category } from '../models/models';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService {
-  // Mock adatok a termékekhez
   private products: Product[] = [
     {
       id: '1',
@@ -96,7 +95,6 @@ export class ProductService {
     }
   ];
 
-  // Mock kategóriák
   private categories: Category[] = [
     {
       id: '1',
@@ -127,24 +125,51 @@ export class ProductService {
 
   constructor() { }
 
-  // Összes termék lekérdezése
+  addProduct(product: Omit<Product, 'id'>): Observable<Product> {
+    const newId = (this.products.length + 1).toString();
+    const newProduct: Product = {
+      id: newId,
+      ...product,
+      createdAt: new Date()
+    };
+    this.products.push(newProduct);
+    return of(newProduct);
+  }
+
   getProducts(): Observable<Product[]> {
     return of(this.products);
   }
 
-  // Egy termék lekérdezése ID alapján
   getProductById(id: string): Observable<Product | undefined> {
+    console.log('Fetching product with ID:', id);
     const product = this.products.find(p => p.id === id);
+    console.log('Product retrieved:', product);
     return of(product);
   }
 
-  // Termékek lekérdezése kategória szerint
+  updateProduct(id: string, data: Partial<Product>): Observable<Product> {
+    const index = this.products.findIndex(p => p.id === id);
+    if (index === -1) {
+      return throwError(() => new Error(`Product with id ${id} not found`));
+    }
+    this.products[index] = { ...this.products[index], ...data };
+    return of(this.products[index]);
+  }
+
+  deleteProduct(id: string): Observable<boolean> {
+    const index = this.products.findIndex(p => p.id === id);
+    if (index === -1) {
+      return throwError(() => new Error(`Product with id ${id} not found`));
+    }
+    this.products.splice(index, 1);
+    return of(true);
+  }
+
   getProductsByCategory(categoryId: string): Observable<Product[]> {
     const filteredProducts = this.products.filter(p => p.categoryId === categoryId);
     return of(filteredProducts);
   }
 
-  // Termékek keresése név és leírás alapján
   searchProducts(query: string): Observable<Product[]> {
     const lowerQuery = query.toLowerCase();
     const filteredProducts = this.products.filter(p => 
@@ -154,20 +179,51 @@ export class ProductService {
     return of(filteredProducts);
   }
 
-  // Kiemelt termékek lekérdezése
-  getFeaturedProducts(): Observable<Product[]> {
-    const featuredProducts = this.products.filter(p => p.featured);
-    return of(featuredProducts);
+  getFeaturedProducts(limit: number = 4): Observable<Product[]> {
+    return of(this.products
+      .filter(p => p.featured)
+      .sort((a, b) => b.rating - a.rating)
+      .slice(0, limit));
   }
 
-  // Összes kategória lekérdezése
+  getDiscountedProducts(): Observable<Product[]> {
+    return of(this.products
+      .filter(p => p.discountPrice && p.discountPrice > 0 && p.inStock)
+      .sort((a, b) => {
+        const discountA = a.discountPrice || a.price;
+        const discountB = b.discountPrice || b.price;
+        return discountA - discountB;
+      }));
+  }
+
+  getNewestProducts(limit: number = 6): Observable<Product[]> {
+    return of([...this.products]
+      .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
+      .slice(0, limit));
+  }
+
+  getTopRatedProducts(limit: number = 5): Observable<Product[]> {
+    return of(this.products
+      .filter(p => p.rating >= 4)
+      .sort((a, b) => b.rating - a.rating)
+      .slice(0, limit));
+  }
+
   getCategories(): Observable<Category[]> {
     return of(this.categories);
   }
 
-  // Egy kategória lekérdezése ID alapján
   getCategoryById(id: string): Observable<Category | undefined> {
     const category = this.categories.find(c => c.id === id);
     return of(category);
+  }
+
+  paginateProducts(page: number, limit: number = 10): Observable<Product[]> {
+    const start = page * limit;
+    const end = start + limit;
+    const paginatedProducts = this.products
+      .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
+      .slice(start, end);
+    return of(paginatedProducts);
   }
 }

@@ -60,11 +60,23 @@ export class RegisterComponent {
   onSubmit() {
     if (this.registerForm.valid) {
       console.log('Regisztrációs adatok:', this.registerForm.value);
+      
+      // In a real app, this would send the data to a backend for registration
+      // For mock purposes, we'll automatically set the user as logged in
+      localStorage.setItem('isLoggedIn', 'true');
+      
+      // If the email contains "admin", set admin status
+      const email = this.registerForm.get('email')?.value;
+      if (email.toLowerCase().includes('admin')) {
+        localStorage.setItem('isAdmin', 'true');
+      }
+      
       this.snackBar.open('Sikeres regisztráció!', 'Rendben', {
         duration: 3000
       });
+      
       this.registerForm.reset();
-      this.router.navigate(['/login']);
+      this.router.navigate(['/']);
     }
   }
 }

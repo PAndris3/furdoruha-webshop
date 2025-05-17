@@ -1,93 +1,98 @@
 <!-- product-list.component.html -->
 <div class="product-list-container">
-    <mat-card class="filter-card">
-      <mat-card-header>
-        <mat-card-title>Fürdőruhák</mat-card-title>
-        <mat-card-subtitle *ngIf="categoryId">{{ getCategoryName(categoryId) }}</mat-card-subtitle>
-      </mat-card-header>
-      
-      <mat-card-content>
-        <form [formGroup]="filterForm" class="filter-form">
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Keresés</mat-label>
-            <input matInput formControlName="search" placeholder="Keresés név vagy leírás alapján">
-            <mat-icon matSuffix>search</mat-icon>
+  <mat-card class="filter-card">
+    <mat-card-header>
+      <mat-card-title>Fürdőruhák</mat-card-title>
+      <mat-card-subtitle *ngIf="categoryId">{{ getCategoryName(categoryId) }}</mat-card-subtitle>
+    </mat-card-header>
+    
+    <mat-card-content>
+      <form [formGroup]="filterForm" class="filter-form">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Keresés</mat-label>
+          <input matInput formControlName="search" placeholder="Keresés név vagy leírás alapján">
+          <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+        
+        <div class="price-range">
+          <mat-form-field appearance="outline">
+            <mat-label>Min. ár</mat-label>
+            <input matInput type="number" formControlName="minPrice">
           </mat-form-field>
           
-          <div class="price-range">
-            <mat-form-field appearance="outline">
-              <mat-label>Min. ár</mat-label>
-              <input matInput type="number" formControlName="minPrice">
-            </mat-form-field>
-            
-            <mat-form-field appearance="outline">
-              <mat-label>Max. ár</mat-label>
-              <input matInput type="number" formControlName="maxPrice">
-            </mat-form-field>
-          </div>
+          <mat-form-field appearance="outline">
+            <mat-label>Max. ár</mat-label>
+            <input matInput type="number" formControlName="maxPrice">
+          </mat-form-field>
+        </div>
+        
+        <div class="filter-row">
+          <mat-form-field appearance="outline">
+            <mat-label>Méret</mat-label>
+            <mat-select formControlName="size">
+              <mat-option value="">Összes</mat-option>
+              <mat-option value="XS">XS</mat-option>
+              <mat-option value="S">S</mat-option>
+              <mat-option value="M">M</mat-option>
+              <mat-option value="L">L</mat-option>
+              <mat-option value="XL">XL</mat-option>
+              <mat-option value="XXL">XXL</mat-option>
+            </mat-select>
+          </mat-form-field>
           
-          <div class="filter-row">
-            <mat-form-field appearance="outline">
-              <mat-label>Méret</mat-label>
-              <mat-select formControlName="size">
-                <mat-option value="">Összes</mat-option>
-                <mat-option value="XS">XS</mat-option>
-                <mat-option value="S">S</mat-option>
-                <mat-option value="M">M</mat-option>
-                <mat-option value="L">L</mat-option>
-                <mat-option value="XL">XL</mat-option>
-                <mat-option value="XXL">XXL</mat-option>
-              </mat-select>
-            </mat-form-field>
-            
-            <mat-form-field appearance="outline">
-              <mat-label>Szín</mat-label>
-              <mat-select formControlName="color">
-                <mat-option value="">Összes</mat-option>
-                <mat-option value="Fekete">Fekete</mat-option>
-                <mat-option value="Fehér">Fehér</mat-option>
-                <mat-option value="Kék">Kék</mat-option>
-                <mat-option value="Piros">Piros</mat-option>
-                <mat-option value="Zöld">Zöld</mat-option>
-                <mat-option value="Rózsaszín">Rózsaszín</mat-option>
-                <mat-option value="Mintás">Mintás</mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
+          <mat-form-field appearance="outline">
+            <mat-label>Szín</mat-label>
+            <mat-select formControlName="color">
+              <mat-option value="">Összes</mat-option>
+              <mat-option value="Fekete">Fekete</mat-option>
+              <mat-option value="Fehér">Fehér</mat-option>
+              <mat-option value="Kék">Kék</mat-option>
+              <mat-option value="Piros">Piros</mat-option>
+              <mat-option value="Zöld">Zöld</mat-option>
+              <mat-option value="Rózsaszín">Rózsaszín</mat-option>
+              <mat-option value="Mintás">Mintás</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        
+        <div class="filter-actions">
+          <mat-form-field appearance="outline">
+            <mat-label>Rendezés</mat-label>
+            <mat-select formControlName="sort">
+              <mat-option value="name">Név szerint (A-Z)</mat-option>
+              <mat-option value="price_asc">Ár szerint (növekvő)</mat-option>
+              <mat-option value="price_desc">Ár szerint (csökkenő)</mat-option>
+              <mat-option value="rating">Értékelés szerint</mat-option>
+            </mat-select>
+          </mat-form-field>
           
-          <div class="filter-actions">
-            <mat-form-field appearance="outline">
-              <mat-label>Rendezés</mat-label>
-              <mat-select formControlName="sort">
-                <mat-option value="name">Név szerint (A-Z)</mat-option>
-                <mat-option value="price_asc">Ár szerint (növekvő)</mat-option>
-                <mat-option value="price_desc">Ár szerint (csökkenő)</mat-option>
-                <mat-option value="rating">Értékelés szerint</mat-option>
-              </mat-select>
-            </mat-form-field>
-            
-            <button mat-button color="primary" (click)="clearFilters()">
-              Szűrők törlése
-            </button>
-          </div>
-        </form>
-      </mat-card-content>
-    </mat-card>
-    
-    <div *ngIf="loading" class="loading-container">
-      <mat-spinner></mat-spinner>
-    </div>
-    
-    <div *ngIf="!loading" class="products-grid">
-      <div *ngIf="products.length === 0" class="no-products">
-        <mat-icon>sentiment_dissatisfied</mat-icon>
-        <p>Nem található a keresési feltételeknek megfelelő termék.</p>
-      </div>
-      
-      <app-product-card 
-  *ngFor="let product of products" 
-  [product]="product"
-  (addToCart)="onAddToCart($event)">
-</app-product-card>
-    </div>
+          <button mat-button color="primary" (click)="clearFilters()">
+            Szűrők törlése
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+  
+  <div *ngIf="loading" class="loading-container">
+    <mat-spinner></mat-spinner>
   </div>
+  
+  <div *ngIf="!loading" class="products-grid">
+    <div *ngIf="products.length === 0" class="no-products">
+      <mat-icon>sentiment_dissatisfied</mat-icon>
+      <p>Nem található a keresési feltételeknek megfelelő termék.</p>
+    </div>
+    
+    <app-product-card 
+      *ngFor="let product of products" 
+      [product]="product"
+      [showControls]="true"
+      [showRating]="true"
+      [customClass]="isFeatured(product) ? 'featured-product' : ''"
+      (addToCart)="onAddToCart($event)"
+      (addToWishlist)="onAddToWishlist($event)"
+      (viewDetails)="onViewDetails($event)">
+    </app-product-card>
+  </div>
+</div>

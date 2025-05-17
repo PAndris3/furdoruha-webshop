@@ -32,14 +32,35 @@ import { HighlightDirective } from '../../directives/highlight.directive';
   styleUrls: ['./product-card.component.css']
 })
 export class ProductCardComponent {
+  // Input properties
   @Input() product!: Product;
+  @Input() showControls: boolean = true;
+  @Input() showRating: boolean = true;
+  @Input() customClass: string = '';
+  
+  // Output properties
+  @Output() addToCart = new EventEmitter<Product>();
+  @Output() addToWishlist = new EventEmitter<Product>();
+  @Output() viewDetails = new EventEmitter<Product>();
+  
   constructor(private cartService: CartService) {}
+  
   onAddToCart(): void {
     console.log('ProductCard: kosárba helyezés', this.product);
     this.cartService.addToCart(this.product, 1);
+    this.addToCart.emit(this.product);
   }
-  @Output() addToCart = new EventEmitter<Product>();
-  // Kiszámolja a kedvezmény százalékát
+  
+  onAddToWishlist(): void {
+    this.addToWishlist.emit(this.product);
+  }
+  
+  onViewDetails(): void {
+    // Mivel nincs termékrészletező oldal, csak eseményt bocsátunk ki
+    // hogy a szülő komponens kezelje a részletek megjelenítését
+    this.viewDetails.emit(this.product);
+  }
+
   getDiscountPercent(): number {
     if (!this.product.discountPrice || this.product.price <= this.product.discountPrice) {
       return 0;
@@ -47,16 +68,13 @@ export class ProductCardComponent {
     return Math.round((1 - this.product.discountPrice / this.product.price) * 100);
   }
   
-  // Meghatározza a készlet állapotot
   getStockStatus(): string {
     if (!this.product.inStock) return 'Nincs készleten';
     return 'Készleten';
   }
   
-  // Csillagok renderelése az értékeléshez
   getStarArray(): number[] {
     const rating = Math.round(this.product.rating);
     return Array(5).fill(0).map((_, i) => i < rating ? 1 : 0);
   }
-  
 }

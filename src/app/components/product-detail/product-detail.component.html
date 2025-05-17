@@ -1,0 +1,99 @@
+<div class="product-detail-container">
+    <div *ngIf="loading" class="loading-container">
+      <mat-spinner></mat-spinner>
+    </div>
+    
+    <div *ngIf="product && !loading" class="product-content">
+      <div class="product-images">
+        <div class="main-image">
+          <img [src]="product.imageUrls && product.imageUrls.length > 0 ? product.imageUrls[selectedImageIndex] : 'assets/images/placeholder.jpg'"
+               [alt]="product.name">
+               
+          <div *ngIf="product.discountPrice" class="discount-badge">
+            -{{ getDiscountPercent() }}%
+          </div>
+        </div>
+        
+        <div class="image-thumbnails" *ngIf="product.imageUrls && product.imageUrls.length > 1">
+          <div *ngFor="let img of product.imageUrls; let i = index" 
+               class="thumbnail" 
+               [class.active]="i === selectedImageIndex"
+               (click)="selectImage(i)">
+            <img [src]="img" [alt]="product.name + ' ' + i">
+          </div>
+        </div>
+      </div>
+      
+      <div class="product-info">
+        <h2 class="product-name">{{ product.name }}</h2>
+        
+        <div class="product-price">
+          <span *ngIf="product.discountPrice" class="original-price">
+            {{ product.price }} Ft
+          </span>
+          <span class="current-price">
+            {{ product.discountPrice || product.price }} Ft
+          </span>
+        </div>
+        
+        <div class="product-description">
+          <h3>Leírás</h3>
+          <p>{{ product.description }}</p>
+        </div>
+        
+        <div class="product-attributes">
+          <div class="sizes" *ngIf="product.sizes && product.sizes.length > 0">
+            <h3>Méretek</h3>
+            <div class="size-list">
+              <button *ngFor="let size of product.sizes"
+                     mat-stroked-button>
+                {{ size }}
+              </button>
+            </div>
+          </div>
+          
+          <div class="colors" *ngIf="product.colors && product.colors.length > 0">
+            <h3>Színek</h3>
+            <div class="color-list">
+              <div *ngFor="let color of product.colors"
+                   class="color-option"
+                   [style.background-color]="color">
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="quantity-control">
+          <h3>Mennyiség</h3>
+          <div class="quantity-input">
+            <button mat-icon-button (click)="decreaseQuantity()">
+              <mat-icon>remove</mat-icon>
+            </button>
+            <span>{{ quantity }}</span>
+            <button mat-icon-button (click)="increaseQuantity()">
+              <mat-icon>add</mat-icon>
+            </button>
+          </div>
+        </div>
+        
+        <div class="product-actions">
+          <button mat-raised-button color="primary" 
+                  [disabled]="!product.inStock" 
+                  (click)="addToCart()">
+            Kosárba
+          </button>
+        </div>
+        
+        <div class="stock-status" [ngClass]="{'out-of-stock': !product.inStock}">
+          <mat-icon>{{ product.inStock ? 'check_circle' : 'highlight_off' }}</mat-icon>
+          <span>{{ product.inStock ? 'Készleten' : 'Nincs készleten' }}</span>
+        </div>
+      </div>
+    </div>
+    
+    <div *ngIf="!product && !loading" class="error-container">
+      <mat-icon color="warn">error</mat-icon>
+      <h3>A keresett termék nem található!</h3>
+      <button mat-button color="primary" routerLink="/products">Vissza a termékekhez</button>
+    </div>
+  </div>
